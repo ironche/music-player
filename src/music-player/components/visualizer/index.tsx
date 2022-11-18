@@ -7,25 +7,40 @@ export function Visualizer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    function readMetadata() {
-      console.log('readMetadata', audioRef.current?.duration);
-      dispatch(Actions.updateSongDuration(audioRef.current?.duration));
-    }
-
     if (state.isPlaying) {
       audioRef.current?.play();
       // renderFrame();
     } else {
       audioRef.current?.pause();
     }
+  }, [state.currentSongIndex, state.isPlaying]);
 
-    audioRef.current?.addEventListener('loadedmetadata', readMetadata);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = state.currentSongTime || 0;
+    }
+  }, [state.currentSongTimeUserUpdate]);
 
+  useEffect(() => {
+    const ref = audioRef.current;
+
+    const readMetadata = () => dispatch(Actions.updateSongDuration(ref?.duration));
+    const jumpInTime = () => dispatch(Actions.updateSongTime(ref?.currentTime));
+    const goToNext = () => dispatch(Actions.nextSong());
+
+    const events: Array<[string, () => void]> = [
+      ['loadedmetadata', readMetadata],
+      ['timeupdate', jumpInTime],
+      ['ended', goToNext],
+    ];
+
+    events.forEach((ev) => ref?.addEventListener(ev[0], ev[1]));
     return () => {
-      audioRef.current?.removeEventListener('loadedmetadata', readMetadata);
+      events.forEach((ev) => ref?.removeEventListener(ev[0], ev[1]));
     };
-  }, [state]);
+  }, [state.currentSongIndex, Actions, dispatch]);
 
+  /*
   function renderFrame() {
     requestAnimationFrame(renderFrame);
 
@@ -65,6 +80,7 @@ export function Visualizer() {
       }
     }
   }
+  */
 
   return (
     <>

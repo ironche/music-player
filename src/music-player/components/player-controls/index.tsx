@@ -1,5 +1,6 @@
-import { styled } from '@mui/material/styles';
+import { SyntheticEvent } from 'react';
 import { Toolbar, Stack, Typography, Slider, IconButton, IconButtonProps } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useMusicPlayer } from '../../state';
 import PlayIcon from '@mui/icons-material/PlayCircleOutline';
 import PauseIcon from '@mui/icons-material/PauseCircleOutline';
@@ -9,10 +10,20 @@ import PrevIcon from '@mui/icons-material/SkipPrevious';
 export function PlayerControls() {
   const { state, dispatch, Actions } = useMusicPlayer();
 
+  function handleSliderChange(event: Event | SyntheticEvent<Element, Event>, value: number | number[]): void {
+    dispatch(Actions.updateSongTimeByUser(value as number));
+  }
+
   return (
     <>
       <SliderContainer>
-        <Slider/>
+        <Slider
+          valueLabelDisplay="auto"
+          valueLabelFormat={formatTime}
+          max={Math.floor(state.currentSongDuration)}
+          value={state.currentSongTime}
+          onChange={handleSliderChange}
+        />
       </SliderContainer>
 
       <ToolbarContainer>
@@ -40,15 +51,15 @@ export function PlayerControls() {
         <Stack sx={{flexGrow: 1}}/>
 
         <Typography variant="caption" component="pre">
-          {formatDuration(0) + ' / ' + formatDuration(state.currentSongDuration)}
+          {formatTime(state.currentSongTime) + ' / ' + formatTime(state.currentSongDuration)}
         </Typography>
       </ToolbarContainer>
     </>
   );
 }
 
-function formatDuration(duration: number): string {
-  return [duration / 60, duration % 60]
+function formatTime(time: number): string {
+  return [time / 60, time % 60]
     .map((val) => Math.floor(val).toString().padStart(2, '0'))
     .join(':')
 }
@@ -62,7 +73,7 @@ const ControlButton = styled((props: IconButtonProps) => {
   );
 })(({ theme }) => ({
   '.MuiSvgIcon-root': {
-    'font-size': '2rem',
+    fontSize: '2rem',
   },
 }));
 

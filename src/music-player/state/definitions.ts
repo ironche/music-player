@@ -14,6 +14,8 @@ export interface State {
   isPlaying: boolean;
   currentSongIndex: number;
   currentSongDuration: number;
+  currentSongTime: number;
+  currentSongTimeUserUpdate: number;
 }
 
 export const initialState: State = {
@@ -21,6 +23,8 @@ export const initialState: State = {
   isPlaying: false,
   currentSongIndex: -1,
   currentSongDuration: 0,
+  currentSongTime: 0,
+  currentSongTimeUserUpdate: 0,
 };
 
 export enum ActionType {
@@ -33,6 +37,8 @@ export enum ActionType {
   ADD_TO_PLAYLIST,
   REMOVE_FROM_PLAYLIST,
   UPDATE_SONG_DURATION,
+  UPDATE_SONG_TIME,
+  UPDATE_SONG_TIME_BY_USER,
 }
 
 export interface Action {

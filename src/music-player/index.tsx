@@ -12,10 +12,12 @@ export default function MusicPlayer(props: MusicPlayerProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    console.log('milos');
+
     if (Array.isArray(props.initialPlaylist) && props.initialPlaylist.length) {
       dispatch(Actions.addToPlaylist(props.initialPlaylist));
     }
-  }, []);
+  }, [props]);
 
   return (
     <MusicPlayerContext.Provider value={{ state, dispatch, Actions }}>

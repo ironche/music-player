@@ -62,13 +62,17 @@ export function reducer(state: State, action: Action): State {
       let payloadSongsLastActiveIndex = -1;
 
       if (Array.isArray(action.payload)) {
+        let playlistIds = new Set(state.playlist.map(({ id }) => id));
         let list = action.payload as Playlist;
         let i = 0;
         while (i < list.length) {
           const { active, ...song } = list[i];
-          payloadSongs.push(song);
-          if (active) {
-            payloadSongsLastActiveIndex = i;
+          if (!playlistIds.has(song.id)) {
+            playlistIds.add(song.id);
+            payloadSongs.push(song);
+            if (active) {
+              payloadSongsLastActiveIndex = i;
+            }
           }
           i++;
         }
@@ -91,7 +95,20 @@ export function reducer(state: State, action: Action): State {
     case ActionType.UPDATE_SONG_DURATION: {
       return {
         ...state,
-        currentSongDuration: action.payload as number || 0,
+        currentSongDuration: Math.floor(action.payload as number || 0),
+      };
+    }
+    case ActionType.UPDATE_SONG_TIME: {
+      return {
+        ...state,
+        currentSongTime: Math.floor(action.payload as number || 0),
+      };
+    }
+    case ActionType.UPDATE_SONG_TIME_BY_USER: {
+      return {
+        ...state,
+        currentSongTime: Math.floor(action.payload as number || 0),
+        currentSongTimeUserUpdate: state.currentSongTimeUserUpdate + 1,
       };
     }
     default:

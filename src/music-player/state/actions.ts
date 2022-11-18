@@ -45,10 +45,24 @@ export namespace Actions {
     };
   }
 
-  export function updateSongDuration(duration = 0): Action {
+  export function updateSongDuration(duration?: number): Action {
     return {
       type: ActionType.UPDATE_SONG_DURATION,
       payload: duration,
+    };
+  }
+
+  export function updateSongTime(time?: number): Action {
+    return {
+      type: ActionType.UPDATE_SONG_TIME,
+      payload: time,
+    };
+  }
+
+  export function updateSongTimeByUser(time?: number): Action {
+    return {
+      type: ActionType.UPDATE_SONG_TIME_BY_USER,
+      payload: time,
     };
   }
 }
