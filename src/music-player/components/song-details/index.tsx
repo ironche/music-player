@@ -1,8 +1,9 @@
-import { List, ListSubheader, ListItem, ListItemAvatar, Avatar, ListItemText, Skeleton } from '@mui/material';
+import { List, ListSubheader, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useMusicPlayer } from '../../state';
 
 export function SongDetails() {
-  const { state, dispatch, Actions } = useMusicPlayer();
+  const { state } = useMusicPlayer();
   const song = state.playlist[state.currentSongIndex];
 
   if (!song) {
@@ -10,11 +11,11 @@ export function SongDetails() {
   }
 
   return (
-    <List
+    <InfoList
       subheader={
-        <ListSubheader>
+        <InfoListHeader>
           Currently playing
-        </ListSubheader>
+        </InfoListHeader>
       }
     >
       <ListItem>
@@ -30,7 +31,14 @@ export function SongDetails() {
           secondary={song.artist}
         />
       </ListItem>
-    </List>
+    </InfoList>
   );
 }
 
+const InfoList = styled(List)`
+  background-color: rgba(255, 255, 255, 0.5);
+`;
+
+const InfoListHeader = styled(ListSubheader)`
+  background-color: transparent;
+`;
