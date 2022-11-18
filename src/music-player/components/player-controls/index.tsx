@@ -9,6 +9,7 @@ import PrevIcon from '@mui/icons-material/SkipPrevious';
 
 export function PlayerControls() {
   const { state, dispatch, Actions } = useMusicPlayer();
+  const songNotSet = state.currentSongIndex === -1;
 
   function handleSliderChange(event: Event | SyntheticEvent<Element, Event>, value: number | number[]): void {
     dispatch(Actions.updateSongTimeByUser(value as number));
@@ -29,19 +30,19 @@ export function PlayerControls() {
       <ToolbarContainer>
         <Stack direction="row" alignItems="start" spacing={1}>
           <ControlButton
-            disabled={state.currentSongIndex < 1}
+            disabled={songNotSet}
             onClick={() => dispatch(Actions.previousSong())}
           >
             <PrevIcon/>
           </ControlButton>
           <ControlButton
-            disabled={state.currentSongIndex === -1}
+            disabled={songNotSet}
             onClick={() => dispatch(state.isPlaying ? Actions.pause() : Actions.play())}
           >
             {state.isPlaying ? <PauseIcon/> : <PlayIcon/>}
           </ControlButton>
           <ControlButton
-            disabled={state.currentSongIndex === state.playlist.length - 1}
+            disabled={songNotSet}
             onClick={() => dispatch(Actions.nextSong())}
           >
             <NextIcon/>
