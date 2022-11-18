@@ -12,7 +12,13 @@ export function PlayerControls() {
   const songNotSet = state.currentSongIndex === -1;
 
   function handleSliderChange(event: Event | SyntheticEvent<Element, Event>, value: number | number[]): void {
-    dispatch(Actions.updateSongTimeByUser(value as number));
+    dispatch(Actions.updateSongTimeByUser(true));
+    dispatch(Actions.updateSongTime(value as number));
+  }
+
+  function handleSliderChangeCommited(event: Event | SyntheticEvent<Element, Event>, value: number | number[]): void {
+    dispatch(Actions.updateSongTime(value as number));
+    dispatch(Actions.updateSongTimeByUser(false));
   }
 
   return (
@@ -24,6 +30,7 @@ export function PlayerControls() {
           max={Math.floor(state.currentSongDuration)}
           value={state.currentSongTime}
           onChange={handleSliderChange}
+          onChangeCommitted={handleSliderChangeCommited}
         />
       </SliderContainer>
 

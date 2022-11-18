@@ -15,7 +15,7 @@ export interface State {
   currentSongIndex: number;
   currentSongDuration: number;
   currentSongTime: number;
-  currentSongTimeUserUpdate: number;
+  currentSongTimeUserUpdate: boolean;
 }
 
 export const initialState: State = {
@@ -24,7 +24,7 @@ export const initialState: State = {
   currentSongIndex: -1,
   currentSongDuration: 0,
   currentSongTime: 0,
-  currentSongTimeUserUpdate: 0,
+  currentSongTimeUserUpdate: false,
 };
 
 export enum ActionType {

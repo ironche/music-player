@@ -59,10 +59,10 @@ export namespace Actions {
     };
   }
 
-  export function updateSongTimeByUser(time?: number): Action {
+  export function updateSongTimeByUser(inProgress?: boolean): Action {
     return {
       type: ActionType.UPDATE_SONG_TIME_BY_USER,
-      payload: time,
+      payload: inProgress,
     };
   }
 }

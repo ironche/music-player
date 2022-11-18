@@ -15,7 +15,7 @@ export function Visualizer() {
   }, [state.currentSongIndex, state.isPlaying]);
 
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && !state.currentSongTimeUserUpdate) {
       audioRef.current.currentTime = state.currentSongTime || 0;
     }
   }, [state.currentSongTimeUserUpdate]);
@@ -24,7 +24,7 @@ export function Visualizer() {
     const ref = audioRef.current;
 
     const readMetadata = () => dispatch(Actions.updateSongDuration(ref?.duration));
-    const jumpInTime = () => dispatch(Actions.updateSongTime(ref?.currentTime));
+    const jumpInTime = () => !state.currentSongTimeUserUpdate && dispatch(Actions.updateSongTime(ref?.currentTime));
     const goToNext = () => dispatch(Actions.nextSong());
 
     const events: Array<[string, () => void]> = [
@@ -37,7 +37,7 @@ export function Visualizer() {
     return () => {
       events.forEach((ev) => ref?.removeEventListener(ev[0], ev[1]));
     };
-  }, [state.currentSongIndex, Actions, dispatch]);
+  }, [state.currentSongIndex, state.currentSongTimeUserUpdate, Actions, dispatch]);
 
   return (
     <>

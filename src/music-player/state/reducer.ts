@@ -107,8 +107,7 @@ export function reducer(state: State, action: Action): State {
     case ActionType.UPDATE_SONG_TIME_BY_USER: {
       return {
         ...state,
-        currentSongTime: Math.floor(action.payload as number || 0),
-        currentSongTimeUserUpdate: state.currentSongTimeUserUpdate + 1,
+        currentSongTimeUserUpdate: Boolean(action.payload),
       };
     }
     default:
