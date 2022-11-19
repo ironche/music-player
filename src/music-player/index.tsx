@@ -55,6 +55,7 @@ const GridContainer = styled('div')`
 
 const VisualizerContainer = styled('div')`
   grid-area: visualizer;
+  position: relative;
 `;
 
 const ControlsContainer = styled('footer')`

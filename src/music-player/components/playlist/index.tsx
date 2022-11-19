@@ -1,13 +1,13 @@
 import { List, ListItemButton, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
-import { useMusicPlayer } from '../../state';
 import EmptyList from './EmptyList';
+import { useMusicPlayer } from '../../state';
 
 export function Playlist() {
   const { state, dispatch, Actions } = useMusicPlayer();
 
   return (
     <List>
-      {(state.playlist.length < 1) && <EmptyList count={8}/>}
+      {(state.playlist.length < 1) && <EmptyList count={3}/>}
       {state.playlist.map((song, i) =>
         <ListItemButton
           key={song.id}
@@ -30,5 +30,3 @@ export function Playlist() {
     </List>
   );
 }
-
-

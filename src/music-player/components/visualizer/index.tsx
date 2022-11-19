@@ -1,10 +1,12 @@
 import { useRef, useEffect } from 'react';
 import { useMusicPlayer } from '../../state';
+import { styled } from '@mui/material/styles';
+import { Container } from './Container';
+// import { Wave } from '@foobar404/wave';
 
 export function Visualizer() {
   const { state, dispatch, Actions } = useMusicPlayer();
   const audioRef = useRef<HTMLAudioElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     if (state.isPlaying) {
@@ -39,10 +41,31 @@ export function Visualizer() {
     };
   }, [state.currentSongIndex, state.currentSongTimeUserUpdate, Actions, dispatch]);
 
+  // MediaElementAudioSource outputs zeroes due to CORS access restrictions
+  /*
+  useLayoutEffect(() => {
+    let audioElement = document.getElementById('audioRef');
+    let canvasElement = document.getElementById('canvasRef');
+
+    if (state.currentSongIndex > -1 && state.isPlaying) {
+      let wave = new Wave(audioElement as any, canvasElement as any);
+      wave.addAnimation(new wave.animations.Wave());
+    }
+  }, [state.currentSongIndex, state.isPlaying]);
+  */
+
   return (
-    <>
-      <audio ref={audioRef} preload="auto" src={state.playlist[state.currentSongIndex]?.audio}></audio>
-      <canvas ref={canvasRef}></canvas>
-    </>
+    <Container
+      animate={state.isPlaying}
+      colors={state.playlist[state.currentSongIndex]?.color}
+    >
+      <audio id="audioRef" ref={audioRef} preload="auto" src={state.playlist[state.currentSongIndex]?.audio}></audio>
+      <SoundCanvas id="canvasRef"></SoundCanvas>
+    </Container>
   );
 }
+
+export const SoundCanvas = styled('canvas')`
+  width: 100%;
+  height: 100%;
+`;

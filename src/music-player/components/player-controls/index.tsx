@@ -1,7 +1,8 @@
 import { SyntheticEvent } from 'react';
-import { Toolbar, Stack, Typography, Slider, IconButton, IconButtonProps } from '@mui/material';
+import { Toolbar, Stack, Typography, Slider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useMusicPlayer } from '../../state';
+import { ControlButton } from './ControlButton';
 import PlayIcon from '@mui/icons-material/PlayCircleOutline';
 import PauseIcon from '@mui/icons-material/PauseCircleOutline';
 import NextIcon from '@mui/icons-material/SkipNext';
@@ -71,19 +72,6 @@ function formatTime(time: number): string {
     .map((val) => Math.floor(val).toString().padStart(2, '0'))
     .join(':')
 }
-
-const ControlButton = styled((props: IconButtonProps) => {
-  const { color, edge, size, ...rest } = props;
-  return (
-    <IconButton color="inherit" edge="start" size="medium" {...rest}>
-      {props.children}
-    </IconButton>
-  );
-})(({ theme }) => ({
-  '.MuiSvgIcon-root': {
-    fontSize: '2rem',
-  },
-}));
 
 const SliderContainer = styled('header')`
   position: absolute;

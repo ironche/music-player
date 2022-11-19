@@ -37,6 +37,7 @@ export function SongDetails() {
 
 const InfoList = styled(List)`
   background-color: rgba(255, 255, 255, 0.5);
+  z-index: 1;
 `;
 
 const InfoListHeader = styled(ListSubheader)`
